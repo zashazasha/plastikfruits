@@ -23,6 +23,7 @@ jobs:
         run: |
           mkdir -p dist
           cp index.html dist/
+          cp sw.js dist/
           cp -r public dist/
 
       - uses: actions/upload-pages-artifact@v3
