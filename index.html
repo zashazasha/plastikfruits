@@ -1050,7 +1050,7 @@
     const folders = {
       root: {
         title: "Recovered_Files",
-        status: "7 items, 923 MB available",
+        status: "7 items",
         items: [
           { type: "doc", name: "about.me.rtf", text: "Wrong containers for true things.\n\nOfficial, cold, bureaucratic forms holding feelings that are too human for those containers.\n\nThe gap between the cold form and the warm content is where the feeling lives.\n\n- plastikfruits" },
           { type: "folder", name: "Case Files", folder: "case" },
@@ -1061,17 +1061,10 @@
           { type: "folder", name: "Ongoing", folder: "ongoing" }
         ]
       },
-      case: {
-        title: "Case Files",
-        status: "2 items",
-        items: [
-          { type: "pdf", name: "Missing_Persons_001.pdf", label: "Missing Persons\nReport - Mother", text: "PDF render failed.\n\nRecovered text fragment:\n\nSubject last seen inside the domestic archive. Answered to several names. Usually found near the sink, the door, the end of the bed, or anywhere someone needed something and forgot to say thank you." },
-          { type: "folder", name: "Ongoing", folder: "ongoing" }
-        ]
-      },
-      medical: { title: "Medical Records", status: "1 item", items: [{ type: "doc", name: "Diagnosis_Form.rtf", label: "Diagnosis Form", text: "Primary complaint:\nfeeling like evidence in a room nobody is investigating.\n\nRecommended treatment:\nmake a container ugly enough that the truth stops trying to perform." }] },
-      legal: { title: "Legal Documents", status: "2 items", items: [{ type: "doc", name: "Terms_Conditions.rtf", label: "Terms &\nConditions", text: "By continuing to live, the user agrees to recurring tenderness, delayed processing, and the occasional inability to locate the original wound." }, { type: "doc", name: "Court_Summons.rtf", label: "Court Summons", text: "You are hereby requested to appear before the part of yourself that kept every receipt." }] },
-      internal: { title: "Internal Memos", status: "1 item", items: [{ type: "doc", name: "Memo_001.rtf", label: "Internal Memo\n#001", text: "Please stop labeling every emergency as administrative." }] },
+      case: { title: "Case Files", status: "0 items", items: [] },
+      medical: { title: "Medical Records", status: "0 items", items: [] },
+      legal: { title: "Legal Documents", status: "0 items", items: [] },
+      internal: { title: "Internal Memos", status: "0 items", items: [] },
       archive: { title: "Archive", status: "0 items", items: [] },
       ongoing: { title: "Ongoing", status: "0 items", items: [] }
     };
@@ -1394,7 +1387,7 @@
     }
 
     makeDraggable(finder);
-    renderFolder("root");
+    openFinder();
 
     async function applyOptionalAsset(slot, paths) {
       for (const path of paths) {
