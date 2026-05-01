@@ -20,8 +20,8 @@ export const preferences = persisted('macos:preferences', {
 		primaryColor: 'blue',
 	} as Theme,
 	wallpaper: {
-		image: 'ventura-2',
-		id: 'ventura',
+		image: 'mojave-2',
+		id: 'mojave',
 		canControlTheme: true,
 	} as WallpaperSettings,
 });

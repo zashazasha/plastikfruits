@@ -6,17 +6,18 @@
 	import { create_interval } from '🍎/state/interval.svelte.ts';
 	import { preferences } from '🍎/state/preferences.svelte.ts';
 
-	let visible_background_image = $state(wallpapers_config.ventura.image);
+	let visible_background_image = $state(wallpapers_config.mojave?.image);
 
 	const interval = create_interval(5 * 1000);
 
 	$effect(() => {
 		interval.value;
 
-		if (wallpapers_config[preferences.wallpaper.id].type === 'standalone') {
-			untrack(
-				() => (preferences.wallpaper.image = wallpapers_config[preferences.wallpaper.id].image),
-			);
+		const current = wallpapers_config[preferences.wallpaper.id];
+		if (!current) return;
+
+		if (current.type === 'standalone') {
+			untrack(() => (preferences.wallpaper.image = current.image));
 			return;
 		}
 
@@ -31,7 +32,7 @@
 		const date = new Date();
 		const hour = date.getHours();
 
-		const wallpaperTimestampsMap = wallpapers_config[preferences.wallpaper.id].timestamps.wallpaper;
+		const wallpaperTimestampsMap = wallpapers_config[preferences.wallpaper.id]?.timestamps?.wallpaper;
 		const timestamps = Object.keys(wallpaperTimestampsMap);
 
 		const minTimestamp = Math.min(...timestamps);
@@ -60,7 +61,7 @@
 		const date = new Date();
 		const hour = date.getHours();
 
-		const themeTimestampsMap = wallpapers_config[preferences.wallpaper.id].timestamps.theme;
+		const themeTimestampsMap = wallpapers_config[preferences.wallpaper.id]?.timestamps?.theme;
 		const timestamps = Object.keys(themeTimestampsMap);
 
 		const minTimestamp = Math.min(...timestamps);
