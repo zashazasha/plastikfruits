@@ -33,13 +33,7 @@
 
 		<br />
 
-		<h1 style:display="flex" style:align-items="center" style:gap="0.5rem">
-			Nothing here yet <img
-				style="height: 1em; width: auto; transform: translateY(0.1em);"
-				src="/emojis/wink.png"
-				alt="Wink Emoji"
-			/>
-		</h1>
+		<h1>Nothing here yet 😉</h1>
 	</section>
 </section>
 

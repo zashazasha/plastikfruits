@@ -41,16 +41,6 @@ const finder = create_app_config({
 	should_open_window: false,
 });
 
-const safari = create_app_config({
-	title: 'Safari',
-	resizable: true,
-});
-
-const systemPreferences = create_app_config({
-	title: 'System Preferences',
-	resizable: true,
-});
-
 const purusTwitter = create_app_config({
 	title: `About the Developer`,
 	resizable: true,
@@ -92,9 +82,6 @@ export const apps_config = {
 	calendar,
 	vscode,
 	appstore,
-	// safari,
-
-	// 'system-preferences': systemPreferences,
 
 	'purus-twitter': purusTwitter,
 	'view-source': viewSource,

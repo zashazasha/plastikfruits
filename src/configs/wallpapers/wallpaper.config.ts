@@ -27,137 +27,41 @@ const wallpaperThumbnails = import.meta.glob('../../assets/wallpapers/*.{webp,jp
 
 const create_wallpapers_config = <TConfig = string>(
 	wallpaper_config: Record<keyof TConfig, Wallpaper>,
-): Record<keyof TConfig, Wallpaper> => {
+): Partial<Record<keyof TConfig, Wallpaper>> => {
 	const optimized_wallpapers_arr = Object.entries(optimized_wallpapers);
+	const result: Partial<Record<keyof TConfig, Wallpaper>> = {};
 
 	for (const [wallpaperName, config] of Object.entries(wallpaper_config)) {
-		const wallpaper = wallpaper_config[wallpaperName as keyof TConfig];
+		const key = wallpaperName as keyof TConfig;
+		const wallpaper = wallpaper_config[key];
 		const thumbnail = config.thumbnail;
 
-		wallpaper.thumbnail = (
-			Object.entries(wallpaperThumbnails).find(([path]) => path.includes(thumbnail))[1] as any
-		).default;
+		const thumbnailMatch = Object.entries(wallpaperThumbnails).find(([path]) =>
+			path.includes(thumbnail),
+		);
+		const imageMatch = optimized_wallpapers_arr.find(([path]) => path.includes(thumbnail));
 
-		wallpaper.image = (
-			optimized_wallpapers_arr.find(([path]) => path.includes(thumbnail))[1] as any
-		).default;
+		if (!thumbnailMatch || !imageMatch) continue;
 
-		if (wallpaper.type !== 'standalone') {
+		wallpaper.thumbnail = (thumbnailMatch[1] as any).default;
+		wallpaper.image = (imageMatch[1] as any).default;
+
+		if (wallpaper.type !== 'standalone' && config.timestamps?.wallpaper) {
 			for (const [time, imgName] of Object.entries(config.timestamps.wallpaper)) {
-				wallpaper.timestamps.wallpaper[time] = (
-					optimized_wallpapers_arr.find(([path]) => path.includes(imgName))[1] as any
-				).default;
+				const match = optimized_wallpapers_arr.find(([path]) => path.includes(imgName as string));
+				if (match) {
+					wallpaper.timestamps!.wallpaper![+time] = (match[1] as any).default;
+				}
 			}
 		}
+
+		result[key] = wallpaper;
 	}
 
-	return wallpaper_config;
+	return result;
 };
 
 export const wallpapers_config = create_wallpapers_config({
-	ventura: {
-		name: 'Ventura',
-		type: 'dynamic',
-
-		thumbnail: 'ventura-2',
-		timestamps: {
-			wallpaper: {
-				7: 'ventura-5',
-				9: 'ventura-2',
-				12: 'ventura-3',
-				17: 'ventura-4',
-				18: 'ventura-5',
-				19: 'ventura-1',
-			},
-			theme: {
-				7: 'light',
-				19: 'dark',
-			},
-		},
-	},
-
-	monterey: {
-		name: 'Monterey',
-		type: 'dynamic',
-		thumbnail: 'monterey-2',
-		timestamps: {
-			wallpaper: {
-				7: 'monterey-2',
-				9: 'monterey-3',
-				11: 'monterey-4',
-				13: 'monterey-5',
-				15: 'monterey-6',
-				16: 'monterey-7',
-				17: 'monterey-8',
-				18: 'monterey-1',
-			},
-			theme: {
-				7: 'light',
-				18: 'dark',
-			},
-		},
-	},
-
-	'big-sur-graphic': {
-		name: 'Big Sur Graphic',
-		type: 'dynamic',
-		thumbnail: 'big-sur-graphic-2',
-		timestamps: {
-			wallpaper: {
-				7: 'big-sur-graphic-2',
-				18: 'big-sur-graphic-1',
-			},
-			theme: {
-				7: 'light',
-				18: 'dark',
-			},
-		},
-	},
-
-	'big-sur': {
-		name: 'Big sur',
-		type: 'dynamic',
-		thumbnail: 'big-sur-4',
-		timestamps: {
-			wallpaper: {
-				7: 'big-sur-2',
-				9: 'big-sur-3',
-				11: 'big-sur-4',
-				13: 'big-sur-5',
-				15: 'big-sur-6',
-				16: 'big-sur-7',
-				17: 'big-sur-8',
-				18: 'big-sur-1',
-			},
-			theme: {
-				7: 'light',
-				18: 'dark',
-			},
-		},
-	},
-
-	catalina: {
-		name: 'Catalina',
-		type: 'dynamic',
-		thumbnail: 'catalina-3',
-		timestamps: {
-			wallpaper: {
-				7: 'catalina-2',
-				9: 'catalina-3',
-				11: 'catalina-4',
-				13: 'catalina-5',
-				15: 'catalina-6',
-				16: 'catalina-7',
-				17: 'catalina-8',
-				18: 'catalina-1',
-			},
-			theme: {
-				9: 'light',
-				17: 'dark',
-			},
-		},
-	},
-
 	mojave: {
 		name: 'Mojave',
 		type: 'dynamic',
@@ -174,281 +78,28 @@ export const wallpapers_config = create_wallpapers_config({
 		},
 	},
 
-	desert: {
-		name: 'The Desert',
-		type: 'dynamic',
-		thumbnail: 'desert-5',
-		timestamps: {
-			wallpaper: {
-				7: 'desert-2',
-				9: 'desert-3',
-				11: 'desert-4',
-				13: 'desert-5',
-				15: 'desert-6',
-				16: 'desert-7',
-				17: 'desert-8',
-				18: 'desert-1',
-			},
-			theme: {
-				7: 'light',
-				18: 'dark',
-			},
-		},
-	},
-
-	dome: {
-		name: 'Dome',
-		type: 'dynamic',
-		thumbnail: 'dome-2',
-		timestamps: {
-			wallpaper: {
-				7: 'dome-2',
-				18: 'dome-1',
-			},
-			theme: {
-				7: 'light',
-				18: 'dark',
-			},
-		},
-	},
-
-	peak: {
-		name: 'Peak',
-		type: 'dynamic',
-		thumbnail: 'peak-2',
-		timestamps: {
-			wallpaper: {
-				7: 'peak-2',
-				18: 'peak-1',
-			},
-			theme: {
-				7: 'light',
-				18: 'dark',
-			},
-		},
-	},
-
-	iridescence: {
-		name: 'Iridescence',
-		type: 'dynamic',
-		thumbnail: 'iridescence-2',
-		timestamps: {
-			wallpaper: {
-				7: 'iridescence-2',
-				18: 'iridescence-1',
-			},
-			theme: {
-				7: 'light',
-				18: 'dark',
-			},
-		},
-	},
-
-	lake: {
-		name: 'Lake',
-		type: 'dynamic',
-		thumbnail: 'lake-4',
-		timestamps: {
-			wallpaper: {
-				7: 'lake-2',
-				9: 'lake-3',
-				11: 'lake-4',
-				13: 'lake-5',
-				15: 'lake-6',
-				16: 'lake-7',
-				17: 'lake-8',
-				18: 'lake-1',
-			},
-			theme: {
-				7: 'light',
-				18: 'dark',
-			},
-		},
-	},
-
-	'solar-grad': {
-		name: 'Solar Grad',
-		type: 'dynamic',
-		thumbnail: 'solar-grad-11',
-		timestamps: {
-			wallpaper: {
-				6: 'solar-grad-2',
-				7: 'solar-grad-3',
-				8: 'solar-grad-4',
-				9: 'solar-grad-5',
-				10: 'solar-grad-6',
-				11: 'solar-grad-7',
-				12: 'solar-grad-8',
-				13: 'solar-grad-9',
-				14: 'solar-grad-10',
-				15: 'solar-grad-11',
-				16: 'solar-grad-12',
-				17: 'solar-grad-13',
-				18: 'solar-grad-14',
-				19: 'solar-grad-5',
-				20: 'solar-grad-6',
-			},
-			theme: {
-				6: 'light',
-				20: 'dark',
-			},
-		},
-	},
-
-	'kryptonian-demise': {
-		name: 'Kryptonian Demise',
-		type: 'standalone',
-		thumbnail: '38',
-	},
-
-	'nahargarh-sunset': {
-		name: 'Nahargarh Sunset',
-		type: 'standalone',
-		thumbnail: '39',
-	},
-
-	'somber-forest': {
-		name: 'Somber Forest',
-		type: 'standalone',
-		thumbnail: '40',
-	},
-
-	'blade-runner-2149': {
-		name: 'Blade Runner 2149',
-		type: 'standalone',
-		thumbnail: '41',
-	},
-
-	'lone-dune-wolf': {
-		name: 'Lone Dune Wolf',
-		type: 'standalone',
-		thumbnail: '42',
-	},
-
-	'childhood-innocence': {
-		name: 'Childhood Innocence',
-		type: 'standalone',
-		thumbnail: '43',
-	},
-
-	'fox-in-somber-forest': {
-		name: 'Fox in Somber Forest',
-		type: 'standalone',
-		thumbnail: '44',
-	},
-
-	'blood-diamond': {
-		name: 'Blood Diamond',
-		type: 'standalone',
-		thumbnail: '45',
-	},
-
-	'black-bird-in-a-city': {
-		name: 'Black Bird in a City',
-		type: 'standalone',
-		thumbnail: '46',
-	},
-
-	'sunrise-of-dreams': {
-		name: 'Sunrise of Dreams',
-		type: 'standalone',
-		thumbnail: '47',
-	},
-
-	'how-do-we-get-down': {
-		name: 'How do we get down?',
-		type: 'standalone',
-		thumbnail: '48',
-	},
-
-	'cozy-night-with-cat': {
-		name: 'Cozy Night with Cat',
-		type: 'standalone',
-		thumbnail: '49',
-	},
-
-	'age-of-titans': {
-		name: 'Age of Titans',
-		type: 'standalone',
-		thumbnail: '50',
-	},
-
-	dune: {
-		name: 'Dune',
-		type: 'standalone',
-		thumbnail: '51',
-	},
-
-	'vibrant-night': {
-		name: 'Vibrant Night',
-		type: 'standalone',
-		thumbnail: '52',
-	},
-
-	'cabin-in-woods': {
-		name: 'Cabin in the Woods',
-		type: 'standalone',
-		thumbnail: '53',
-	},
-
-	'asgardian-sunrise': {
-		name: 'Asgardian Sunrise',
-		type: 'standalone',
-		thumbnail: '54',
-	},
-
-	'asura-lok': {
-		name: 'Asura Lok',
-		type: 'standalone',
-		thumbnail: '55',
-	},
-
-	'my-neighbour-totoro': {
-		name: 'My Neighbour Totoro',
-		type: 'standalone',
-		thumbnail: '56',
-	},
-
-	tron: {
-		name: 'Tron',
-		type: 'standalone',
-		thumbnail: '57',
-	},
-	leopard: {
-		name: 'Leopard',
-		type: 'standalone',
-		thumbnail: '58',
-	},
-	'retro-90s': {
-		name: 'Retro 90s',
-		type: 'standalone',
-		thumbnail: '59',
-	},
-	'lost-lands': {
-		name: 'Lost Lands',
-		type: 'standalone',
-		thumbnail: '60',
-	},
-	'flower-field': {
-		name: 'Flower Field',
-		type: 'standalone',
-		thumbnail: '61',
-	},
-	'cherry-blossoms': {
-		name: 'Cherry Blossoms',
-		type: 'standalone',
-		thumbnail: '62',
-	},
-	'indian-gardens': {
-		name: 'Indian Gardens',
-		type: 'standalone',
-		thumbnail: '63',
-	},
-	'along-the-ganges': {
-		name: 'Along the Ganges',
-		type: 'standalone',
-		thumbnail: '64',
-	},
+	'custom-1': { name: 'Wallpaper 1', type: 'standalone', thumbnail: 'custom-1' },
+	'custom-2': { name: 'Wallpaper 2', type: 'standalone', thumbnail: 'custom-2' },
+	'custom-5': { name: 'Wallpaper 3', type: 'standalone', thumbnail: 'custom-5' },
+	'custom-6': { name: 'Wallpaper 4', type: 'standalone', thumbnail: 'custom-6' },
+	'custom-7': { name: 'Wallpaper 5', type: 'standalone', thumbnail: 'custom-7' },
+	'custom-8': { name: 'Wallpaper 6', type: 'standalone', thumbnail: 'custom-8' },
+	'custom-9': { name: 'Wallpaper 7', type: 'standalone', thumbnail: 'custom-9' },
+	'custom-10': { name: 'Wallpaper 8', type: 'standalone', thumbnail: 'custom-10' },
+	'custom-11': { name: 'Wallpaper 9', type: 'standalone', thumbnail: 'custom-11' },
+	'custom-13': { name: 'Wallpaper 10', type: 'standalone', thumbnail: 'custom-13' },
+	'custom-14': { name: 'Wallpaper 11', type: 'standalone', thumbnail: 'custom-14' },
+	'custom-15': { name: 'Wallpaper 12', type: 'standalone', thumbnail: 'custom-15' },
+	'custom-16': { name: 'Wallpaper 13', type: 'standalone', thumbnail: 'custom-16' },
+	'custom-17': { name: 'Wallpaper 14', type: 'standalone', thumbnail: 'custom-17' },
+	'custom-18': { name: 'Wallpaper 15', type: 'standalone', thumbnail: 'custom-18' },
+	'custom-19': { name: 'Wallpaper 16', type: 'standalone', thumbnail: 'custom-19' },
+	'custom-20': { name: 'Wallpaper 17', type: 'standalone', thumbnail: 'custom-20' },
+	'custom-21': { name: 'Wallpaper 18', type: 'standalone', thumbnail: 'custom-21' },
+	'custom-22': { name: 'Wallpaper 19', type: 'standalone', thumbnail: 'custom-22' },
+	'custom-23': { name: 'Wallpaper 20', type: 'standalone', thumbnail: 'custom-23' },
+	'custom-tree': { name: 'Tree', type: 'standalone', thumbnail: 'custom-tree' },
+	'custom-valley': { name: 'Valley', type: 'standalone', thumbnail: 'custom-valley' },
 });
 
 export type WallpaperID = keyof typeof wallpapers_config;
