@@ -52,7 +52,7 @@
 	on_close={() => (is_theme_warning_dialog_open = false)}
 >
 	<section class="theme-warning-section">
-		<img height="100" width="100" src="/app-icons/wallpapers/256.webp" alt="Wallpapers app logo" />
+		<img height="100" width="100" src="{import.meta.env.BASE_URL}app-icons/wallpapers/256.webp" alt="Wallpapers app logo" />
 
 		<h3>Current Wallpaper Settings prevent changing theme</h3>
 		<p>Head over to Wallpapers app to change this setting or choose a standalone wallpaper.</p>

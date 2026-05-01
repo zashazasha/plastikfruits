@@ -34,7 +34,7 @@
 	</aside>
 
 	<section class="content">
-		<img height="200" width="200" src="/purus-profile/puru.webp" alt="Puru Vijay Profile pic" />
+		<img height="200" width="200" src="{import.meta.env.BASE_URL}purus-profile/puru.webp" alt="Puru Vijay Profile pic" />
 
 		<br />
 

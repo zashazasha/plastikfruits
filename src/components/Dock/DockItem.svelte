@@ -146,7 +146,7 @@
 	<span style:transform="translate(0, {$appOpenIconBounceTransform}px)">
 		<img
 			bind:this={image_el}
-			src="/app-icons/{app_id}/256.webp"
+			src="{import.meta.env.BASE_URL}app-icons/{app_id}/256.webp"
 			alt="{title} app"
 			style:width="{$width_px / 16}rem"
 			draggable="false"

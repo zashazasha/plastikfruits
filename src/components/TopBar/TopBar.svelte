@@ -16,7 +16,7 @@
 
 	{#if should_show_notch.value}
 		<div class="notch" in:fade={{ duration: 150, easing: sineIn }} out:fade_out>
-			<span> <img src="/emojis/wink.png" alt="Wink emoji" class="emoji" /> </span>
+			<span>😉</span>
 		</div>
 	{/if}
 

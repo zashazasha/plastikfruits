@@ -27,7 +27,7 @@
 	<section class="main-area">
 		<img
 			style:transform={image_transform}
-			src="/app-icons/{app_id}/256.webp"
+			src="{import.meta.env.BASE_URL}app-icons/{app_id}/256.webp"
 			alt="Placeholder App"
 		/>
 
