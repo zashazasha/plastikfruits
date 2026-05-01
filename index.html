@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>plastikfruits</title>
   <link rel="icon" href="./public/app-icons/finder/32.png">
+  <script>
+    // Unregister any old Svelte PWA service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(r => r.unregister());
+      });
+      caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+    }
+  </script>
   <style>
     :root {
       --system-color-primary: hsl(211, 100%, 50%);
